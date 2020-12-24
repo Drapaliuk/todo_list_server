@@ -3,9 +3,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 
 const {isAuthorization} = require('./middlewares/is_authorizathison');
 const authRouter = require('./routes/auth/router')
+const initializeRouter = require('./routes/initialize/router');
 const app = express();
 
 // view engine setup
@@ -19,9 +21,10 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(isAuthorization)
+app.use(cors());
 
 app.use('/auth', authRouter)
+app.use('/initialize', initializeRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
