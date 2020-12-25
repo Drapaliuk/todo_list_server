@@ -3,7 +3,10 @@ const { CommentSchema } = require("./comment");
 const { SubTaskSchema } = require("./sub_task");
 
 exports.TaskSchema = new Schema({
-    text: String,
+    text: {
+        type: String,
+        required: true
+    },
     hasDone: {
         type: Boolean,
         default: false

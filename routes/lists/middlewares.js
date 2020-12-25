@@ -34,15 +34,18 @@ const middlewares = {
             }) 
     },
 
-    delete: (req, res) => {
+    delete: async (req, res) => {
         const {userId} = req;
         const {listId} = req.body;
-        
-        User.findById(userId)
-            .then(user => {
-              user.tasksLists.id(listId).remove()
-              user.save()
-            })
+        console.log('userId', userId)
+        console.log('listId', listId)
+
+        const user = await User.findById(userId)
+        const foundList = user.tasksLists.id(listId).remove()
+        user.save((err) => {
+          console.log('ERROR', err)
+        })
+        res.status(200).json({deletedListId: listId})
     },
 
     settings: {
