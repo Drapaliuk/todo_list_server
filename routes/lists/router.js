@@ -9,6 +9,7 @@ router.get('/', middlewares.get)
       .post('/', middlewares.post)
       .put('/', middlewares.put)
       .delete('/', middlewares.delete)
+      .put('/settings', middlewares.settings.put)
          
 
 

@@ -11,7 +11,10 @@ exports.TasksListSchema = new Schema({
             type: Boolean,
             default: false
         },
-        theme: String, 
+        theme: {
+            type: String,
+            default: ''
+        }, 
     },
     tasks: [TaskSchema]
 })

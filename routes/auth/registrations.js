@@ -6,7 +6,6 @@ const { v4: uuid } = require('uuid');
 
 const middlewares = {
     post: async (req, res) => { 
-        console.log(req.body)
         const {login, password} = req.body;
         if(!login || !password) {
             return res.status(400).json({message: 'There are not password or login', responseCode: 0})

@@ -9,40 +9,59 @@ const middlewares = {
             })
       },
 
-    post: (req, res) => {
-        const {userId} = req;
-        const {tasksList} = req.body;
-        User.findByIdAndUpdate(userId, {$push: {'tasksLists': tasksList}})
-            .then((data, err) => {
-              console.log(data)
-            })
+    post: async (req, res) => {
+        const {userId, shouldUpdateTokens} = req;
+        const {name} = req.body;
+        const {tasksLists} = await User.findByIdAndUpdate(userId, {$push: {'tasksLists': {name: name}}}, {new: true})
+        
+        const response = {
+          list: tasksLists[tasksLists.length - 1],
+          shouldUpdateTokens,
+        }
+
+        res.status(201).json(response)
     },
 
     put: (req, res) => {
         const {userId} = req;
-        const {tasksListId, renewal} = req.body;
+        const {listId, newName} = req.body;
         
         User.findById(userId)
             .then(user => {
-              const tasksList = user.tasksLists.id(tasksListId);
-              for (let key in renewal) {
-                tasksList[key] = renewal[key]
-              }
-    
+              const tasksList = user.tasksLists.id(listId);
+              tasksList.name = newName
               user.save()
-            })
+            }) 
     },
 
     delete: (req, res) => {
         const {userId} = req;
-        const {tasksListId} = req.body;
+        const {listId} = req.body;
         
         User.findById(userId)
             .then(user => {
-              user.tasksLists.id(tasksListId).remove()
+              user.tasksLists.id(listId).remove()
               user.save()
             })
+    },
+
+    settings: {
+      put: (req, res) => {
+        const {userId} = req;
+        const {listId, newValues} = req.body;
+        
+        User.findById(userId)
+            .then(user => {
+              const {settings} = user.tasksLists.id(listId);
+              for (let key in newValues) {
+                settings[key] = newValues[key]
+              }
+    
+              user.save()
+            })       
       }
+    }
+    
 }
 
 
