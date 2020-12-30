@@ -49,19 +49,24 @@ const middlewares = {
     },
 
     settings: {
-      put: (req, res) => {
+      put: async (req, res) => {
         const {userId} = req;
-        const {listId, newValues} = req.body;
+        const {selectedListId, newValue} = req.body;
+
+        const user = await User.findById(userId)
         
-        User.findById(userId)
-            .then(user => {
-              const {settings} = user.tasksLists.id(listId);
-              for (let key in newValues) {
-                settings[key] = newValues[key]
-              }
-    
-              user.save()
-            })       
+        const {settings} = user.tasksLists.id(selectedListId);
+        const [key, value] = Object.entries(newValue)[0]
+        settings[key] = value
+
+        console.log('settings', settings)
+        user.save()
+
+        const response = {
+            listId: selectedListId,
+            changedValue: newValue
+        }
+        res.status(200).json(response)
       }
     }
     

@@ -14,7 +14,12 @@ exports.TasksListSchema = new Schema({
         theme: {
             type: String,
             default: ''
-        }, 
+        },
+        
+        sortBy: {
+            type: String, 
+            default: ''
+        }
     },
     tasks: [TaskSchema]
 })

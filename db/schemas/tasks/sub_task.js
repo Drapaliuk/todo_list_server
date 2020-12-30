@@ -2,5 +2,9 @@ const { Schema } = require("mongoose");
 
 
 exports.SubTaskSchema = new Schema({
-    text: String
+    text: String,
+    hasDone: {
+        type: Boolean,
+        default: false
+    }
 })

@@ -27,7 +27,17 @@ exports.TaskSchema = new Schema({
         type: Number,
         default: null
     },
-    subTasks: [SubTaskSchema],
+    repeat: {
+        type: Object,
+        default: {start: null, end: null}
+    }, 
+    
+    dateCreation: {
+        type: Number,
+        default: Date.now()
+    },
+
+    subtasks: [SubTaskSchema],
     comments: [CommentSchema],
     notes: String,
 });
