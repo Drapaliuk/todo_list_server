@@ -30,13 +30,14 @@ const middlewares = {
           taskId,
           createdSubtask: subtasks[subtasks.length - 1]
         }
+
         
         return res.status(201).json(response)
       },
 
     put: async (req, res) => {
         const {listId, taskId, subtaskId, newValue} = req.body;
-
+        console.log(req.body)
         const user = await getUserById(req.userId)
         const subtask = getSelectedSubtask(user, listId, taskId, subtaskId)
         const [key, value] = Object.entries(newValue)[0] //! Зробити абстракцію!!!
@@ -56,7 +57,7 @@ const middlewares = {
     delete: async (req, res) => {
         const {listId, taskId, subtaskId} = req.body;
         const user = await getUserById(req.userId)
-        const subtask = getSelectedTask(user, listId, taskId, subtaskId)
+        const subtask = getSelectedSubtask(user, listId, taskId, subtaskId)
         subtask.remove()
         user.save()
         const response = {

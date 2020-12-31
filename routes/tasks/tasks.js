@@ -37,9 +37,6 @@ const middlewares = {
                 
       },
 
-
-     
-
     put: async (req, res) => {
         const {selectedListId, selectedTaskId, newValue} = req.body;
 

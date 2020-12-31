@@ -29,7 +29,8 @@ const middlewares = {
 
         const response = {
           listId,
-          savedComment: comments[comments.length - 1]
+          taskId,
+          createdElement: comments[comments.length - 1]
         }
         
         return res.status(201).json(response)
@@ -37,18 +38,19 @@ const middlewares = {
       },
 
     put: async (req, res) => {
-        const {listId, taskId, commentId, newText} = req.body;
+        const {listId, taskId, commentId, newValue} = req.body;
 
         const user = await getUserById(req.userId)
         const comment = getSelectedComment(user, listId, taskId, commentId)
-        comment.text = newText
+        const [key, value] = Object.entries(newValue)[0] //! Зробити абстракцію!!!
+        comment[key] = value
         user.save();
 
         const response = {
           listId,
           taskId,
           commentId,
-          updates: newText
+          updates: value
         }
 
         res.status(200).json(response)
@@ -57,8 +59,8 @@ const middlewares = {
     delete: async (req, res) => {
         const {listId, taskId, commentId} = req.body;
         const user = await getUserById(req.userId)
-        const subtask = getSelectedTask(user, listId, taskId, commentId)
-        subtask.remove()
+        const comment = getSelectedComment(user, listId, taskId, commentId)
+        comment.remove()
         user.save()
         const response = {
             listId,
