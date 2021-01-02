@@ -25,7 +25,8 @@ const middlewares = {
 
         const user = await getUserById(req.userId)
         const {tasks} = getSelectedList(user, selectedListId)
-        tasks.push({text})
+        console.log('DATE CREATION:', Date.now())
+        tasks.push({text, dateCreation: Date.now()})
         user.save()
 
         const response = {

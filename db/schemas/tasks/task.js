@@ -27,6 +27,7 @@ exports.TaskSchema = new Schema({
         type: Number,
         default: null
     },
+    
     repeat: {
         type: Object,
         default: {start: null, end: null}
