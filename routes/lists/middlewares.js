@@ -41,10 +41,8 @@ const middlewares = {
         console.log('listId', listId)
 
         const user = await User.findById(userId)
-        const foundList = user.tasksLists.id(listId).remove()
-        user.save((err) => {
-          console.log('ERROR', err)
-        })
+        user.tasksLists.id(listId).remove()
+        user.save()
         res.status(200).json({deletedListId: listId})
     },
 
