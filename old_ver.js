@@ -2,7 +2,6 @@ const { authConfigs } = require("../configs/authorization");
 const jwt = require('jsonwebtoken');
 const { v4: uuid } = require('uuid');
 const { User } = require("../db/models/user/user");
-const ResponseError = require("../errors_handlers/response_error");
 
 
 const isAuthorization = async (req, res, next) => {
@@ -11,10 +10,12 @@ const isAuthorization = async (req, res, next) => {
 
     const {jwtKey, tokenOptions} = authConfigs;
     let shouldUpdateTokens = null;
-    let wasExpiredToken = false;
+    let isTokenInvalid = false;
     let userId;
+
     if(!token) {
-        return next(new ResponseError('MISSING TOKEN', 400, 'not passed authorization token'))
+        return res.status(403)
+                  .json({responseCode: 0, message: 'Headers doesn`t have auth token', errName: 'missing token'});
     };
     
     try {
@@ -24,30 +25,32 @@ const isAuthorization = async (req, res, next) => {
         const isUnexpectedError = name !==  'JsonWebTokenError' && name !==  'NotBeforeError' && name !==  'TokenExpiredError'
 
         if(name === 'JsonWebTokenError' || name === 'NotBeforeError') {
-            return next(new ResponseError('INVALID TOKEN', 403, 'your authorization token is invalid'))
+            return res.status(403).json({name: 'JsonWebTokenError', message: 'invalid token'})
         }
 
         if(name === 'TokenExpiredError') {
             const decodedToken =  jwt.decode(token, jwtKey);
             if(!decodedToken) {
-                return next(new ResponseError('INVALID TOKEN', 403, 'your authorization token is invalid'))
+                return res.status(403).json({name: 'TokenExpiredError', message: 'jwt expired'})
             }
 
-            wasExpiredToken = true;
+            isTokenInvalid = true;
             userId = decodedToken.userId;
         }
 
         if(isUnexpectedError) {
-            return next(new Error())
-        }
-    }
-
-    if(wasExpiredToken) {
-        const user = await User.findById(userId);
-        if(!user || user.auth.refreshToken !== refreshToken) {
-            return next(new ResponseError('INVALID TOKEN', 403, 'your authorization token is invalid'))
+            return res.status(404).json({name: 'UnexpectedJsonWebTokenError', message: 'unexpected error'})
         }
         
+    }
+
+    
+    if(isTokenInvalid) {
+        const user = await User.findById(userId);
+        if(!user || user.auth.refreshToken !== refreshToken) {
+            return res.status(403).json({responseCode: 0, message: 'Invalid token or refresh token'})
+        }
+
         const newToken = jwt.sign({userId: userId}, jwtKey, tokenOptions);
         const newRefreshToken = uuid();
         await User.findByIdAndUpdate(userId, {'auth.refreshToken': newRefreshToken});
@@ -56,7 +59,6 @@ const isAuthorization = async (req, res, next) => {
     }
 
     req.shouldUpdateTokens = shouldUpdateTokens;
-
     req.userId = userId;
     return next()
 }

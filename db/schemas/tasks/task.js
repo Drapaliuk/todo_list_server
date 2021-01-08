@@ -40,5 +40,8 @@ exports.TaskSchema = new Schema({
 
     subtasks: [SubTaskSchema],
     comments: [CommentSchema],
-    notes: String,
+    notes: {
+        type: String,
+        default: ''
+    },
 });

@@ -17,11 +17,27 @@ exports.UserSchema = new mongoose.Schema({
             type: String,
             default: '',
         },
-        birthDay: {
+        country: {
+            type: String,
+            default: ''
+        },
+
+        birthday: {
             type: Number,
             default: null,
         },
     },
+    personalData: {
+        email: {
+            type: String,
+            default: ''
+        },
+        phone: {
+            type: String,
+            default: ''
+        }
+    },
+    
     settings: {
         theme: {
             type: String,

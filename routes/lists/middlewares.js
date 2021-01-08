@@ -12,10 +12,11 @@ const middlewares = {
     post: async (req, res) => {
         const {userId, shouldUpdateTokens} = req;
         const {name} = req.body;
-        const {tasksLists} = await User.findByIdAndUpdate(userId, {$push: {'tasksLists': {name: name}}}, {new: true})
-        
+        const user = await User.findById(userId);
+        user.tasksLists.push({name: name})
+        user.save()
         const response = {
-          list: tasksLists[tasksLists.length - 1],
+          list: user.tasksLists[user.tasksLists.length - 1],
           shouldUpdateTokens,
         }
 

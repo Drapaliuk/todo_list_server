@@ -10,6 +10,11 @@ const authRouter = require('./routes/auth/router')
 const initializeRouter = require('./routes/initialize/router');
 const listsRouter = require('./routes/lists/router');
 const tasksRouter = require('./routes/tasks/router');
+const biographyRouter = require('./routes/biography/router');
+const settingsRouter = require('./routes/settings/router');
+const personalDataRouter = require('./routes/personal_data/router');
+const errorHandler = require('./errors_handlers/errors_handler');
+const notFound = require('./errors_handlers/404');
 const app = express();
 
 // view engine setup
@@ -30,21 +35,11 @@ app.use('/', isAuthorization)
 app.use('/initialize', initializeRouter)
 app.use('/tasks', tasksRouter)
 app.use('/lists', listsRouter)
+app.use('/settings', settingsRouter)
+app.use('/biography', biographyRouter)
+app.use('/personalData', personalDataRouter)
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+app.use(notFound);
+app.use(errorHandler)
 
 module.exports = app;

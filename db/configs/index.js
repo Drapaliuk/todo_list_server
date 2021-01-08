@@ -5,7 +5,9 @@ const params  = {
     useCreateIndex: true,
     useUnifiedTopology: true,
     keepAlive: true,
-    keepAliveInitialDelay: 3000
+    keepAliveInitialDelay: 3000,
+    useFindAndModify: false
 }
 
 module.exports = params;
+

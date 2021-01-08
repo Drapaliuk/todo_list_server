@@ -3,9 +3,8 @@ const { User } = require("../../db/models/user/user");
 const middlewares = {
     post: async (req, res) => {
         const { userId, shouldUpdateTokens } = req;
-        console.log('res', res.some)
-        const {tasksLists: tasks, biography, settings } = await User.findById(userId);
-        const payload = {tasks, biography, settings};
+        const {tasksLists: tasks, biography, settings, personalData } = await User.findById(userId);
+        const payload = {tasks, biography, settings, personalData};
       
         const response = {
             responseCode: 1,
