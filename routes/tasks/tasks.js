@@ -1,30 +1,12 @@
-const { User } = require("../../db/models/user/user");
-
-
-// attachments
-const getSelectedList = (user, listId) => user.tasksLists.id(listId)
-const getSelectedTask = (user, listId, taskId) => {
-    const selectedList = getSelectedList(user, listId)
-    return selectedList.tasks.id(taskId)
-}
-const getTaskAttachments = (attachment, user, listId, taskId, subTaskId) => {
-    const selectedTask = getSelectedTask(user, listId, taskId)
-    return selectedTask[attachment].id(subTaskId)
-}
-
-const getUserById = userId => User.findById(userId)
-
-const ResponseData = function(listId, taskId, attachmentId, ) {
-
-} 
-
+const DBSelectors = require("../../utils/DBSelectors");
 
 const middlewares = {
     post: async (req, res) => {
         const {selectedListId, text} = req.body;
 
-        const user = await getUserById(req.userId)
-        const {tasks} = getSelectedList(user, selectedListId)
+        const user = await DBSelectors.getUserById(req.userId)
+        const {tasks} = DBSelectors.getSelectedList(user, selectedListId)
+
         console.log('DATE CREATION:', Date.now())
         tasks.push({text, dateCreation: Date.now()})
         user.save()
@@ -40,9 +22,10 @@ const middlewares = {
 
     put: async (req, res) => {
         const {selectedListId, selectedTaskId, newValue} = req.body;
+        console.log('UPDATE TASK', req.body)
+        const user = await DBSelectors.getUserById(req.userId)
+        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId)
 
-        const user = await getUserById(req.userId)
-        const task = getSelectedTask(user, selectedListId, selectedTaskId)
         const [key, value] = Object.entries(newValue)[0]
         task[key] = value
         user.save();
@@ -60,8 +43,9 @@ const middlewares = {
     delete: removeTask = async (req, res) => {
         const {selectedListId, selectedTaskId} = req.body;
 
-        const user = await getUserById(req.userId)
-        const task = getSelectedTask(user, selectedListId, selectedTaskId)
+        const user = await DBSelectors.getUserById(req.userId)
+        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId)
+
         task.remove()
         user.save()
         const response = {

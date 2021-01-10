@@ -5,7 +5,6 @@ const errorHandler = (err, req, res, next) => {
 
     if(isErrorHandled) {
         const {status, code, message} = err
-        console.log(err)
         return res.status(status).json({
             error: code,
             description: message

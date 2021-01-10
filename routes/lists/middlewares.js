@@ -1,19 +1,11 @@
-const { User } = require("../../db/models/user/user");
+const DBSelectors = require("../../utils/DBSelectors");
 
 const middlewares = {
-    get: (req, res) => {
-        const {userId} = req;
-        User.findById(userId)
-            .then(user => {
-              console.log('---------------', user.tasksLists)
-            })
-      },
-
     post: async (req, res) => {
         const {userId, shouldUpdateTokens} = req;
         const {name} = req.body;
-        const user = await User.findById(userId);
-        user.tasksLists.push({name: name})
+        const user = await DBSelectors.getUserById(userId);
+        user.tasksLists.push({name})
         user.save()
         const response = {
           list: user.tasksLists[user.tasksLists.length - 1],
@@ -23,25 +15,28 @@ const middlewares = {
         res.status(201).json(response)
     },
 
-    put: (req, res) => {
-        const {userId} = req;
-        const {listId, newName} = req.body;
-        
-        User.findById(userId)
-            .then(user => {
-              const tasksList = user.tasksLists.id(listId);
-              tasksList.name = newName
-              user.save()
-            }) 
+    put: async (req, res) => {
+      const {selectedListId, newValue} = req.body;
+
+      const user = await DBSelectors.getUserById(req.userId)
+      const list = DBSelectors.getSelectedList(user, selectedListId)
+      const [key, value] = Object.entries(newValue)[0]
+      list[key] = value
+      user.save();
+
+      const response = {
+        listId: selectedListId,
+        changedValue: newValue
+      }
+
+      res.status(200).json(response)
     },
 
     delete: async (req, res) => {
         const {userId} = req;
         const {listId} = req.body;
-        console.log('userId', userId)
-        console.log('listId', listId)
 
-        const user = await User.findById(userId)
+        const user = await DBSelectors.getUserById(userId)
         user.tasksLists.id(listId).remove()
         user.save()
         res.status(200).json({deletedListId: listId})
@@ -52,13 +47,11 @@ const middlewares = {
         const {userId} = req;
         const {selectedListId, newValue} = req.body;
 
-        const user = await User.findById(userId)
+        const user = await DBSelectors.getUserById(userId)
         
         const {settings} = user.tasksLists.id(selectedListId);
         const [key, value] = Object.entries(newValue)[0]
         settings[key] = value
-
-        console.log('settings', settings)
         user.save()
 
         const response = {

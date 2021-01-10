@@ -1,29 +1,11 @@
-const { User } = require("../../db/models/user/user");
-
-
-// attachments
-const getSelectedList = (user, listId) => user.tasksLists.id(listId)
-const getSelectedTask = (user, listId, taskId) => {
-    const selectedList = getSelectedList(user, listId)
-    return selectedList.tasks.id(taskId)
-}
-
-
-const getSelectedComment = (user, listId, taskId, subtaskId) => {
-    const selectedTask = getSelectedTask(user, listId, taskId)
-    return selectedTask.comment.id(subtaskId)
-}
-
-const getUserById = userId => User.findById(userId)
-
-
+const DBSelectors = require("../../utils/DBSelectors");
 
 const middlewares = {
     post: async (req, res) => {
         const {listId, taskId, text} = req.body;
 
-        const user = await getUserById(req.userId)
-        const {comments} = getSelectedTask(user, listId, taskId)
+        const user = await DBSelectors.getUserById(req.userId)
+        const {comments} = DBSelectors.getSelectedTask(user, listId, taskId)
         comments.push({text})
         user.save()
 
@@ -40,8 +22,8 @@ const middlewares = {
     put: async (req, res) => {
         const {listId, taskId, commentId, newValue} = req.body;
 
-        const user = await getUserById(req.userId)
-        const comment = getSelectedComment(user, listId, taskId, commentId)
+        const user = await DBSelectors.getUserById(req.userId)
+        const comment = DBSelectors.getSelectedComment(user, listId, taskId, commentId)
         const [key, value] = Object.entries(newValue)[0] //! Зробити абстракцію!!!
         comment[key] = value
         user.save();
@@ -58,8 +40,9 @@ const middlewares = {
 
     delete: async (req, res) => {
         const {listId, taskId, commentId} = req.body;
-        const user = await getUserById(req.userId)
-        const comment = getSelectedComment(user, listId, taskId, commentId)
+        console.log('BODY', req.body)
+        const user = await DBSelectors.getUserById(req.userId)
+        const comment = DBSelectors.getSelectedComment(user, listId, taskId, commentId)
         comment.remove()
         user.save()
         const response = {

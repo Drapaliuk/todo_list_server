@@ -1,27 +1,10 @@
-const { User } = require("../../db/models/user/user")
-
-
-const getSelectedList = (user, listId) => user.tasksLists.id(listId)
-const getSelectedTask = (user, listId, taskId) => {
-    console.log(user, listId, taskId)
-    const selectedList = getSelectedList(user, listId)
-    return selectedList.tasks.id(taskId)
-}
-
-
-const getSelectedSubtask = (user, listId, taskId, subtaskId) => {
-    const selectedTask = getSelectedTask(user, listId, taskId)
-    return selectedTask.subtasks.id(subtaskId)
-}
-
-const getUserById = userId => User.findById(userId)
-
+const DBSelectors = require("../../utils/DBSelectors")
 
 const middlewares = {
     post: async (req, res) => {
         const {listId, taskId, text} = req.body;
-        const user = await getUserById(req.userId)
-        const {subtasks} = getSelectedTask(user, listId, taskId)
+        const user = await DBSelectors.getUserById(req.userId)
+        const {subtasks} = DBSelectors.getSelectedTask(user, listId, taskId)
         subtasks.push({text})
         user.save()
 
@@ -38,9 +21,9 @@ const middlewares = {
     put: async (req, res) => {
         const {listId, taskId, subtaskId, newValue} = req.body;
         console.log(req.body)
-        const user = await getUserById(req.userId)
-        const subtask = getSelectedSubtask(user, listId, taskId, subtaskId)
-        const [key, value] = Object.entries(newValue)[0] //! Зробити абстракцію!!!
+        const user = await DBSelectors.getUserById(req.userId)
+        const subtask = DBSelectors.getSelectedSubtask(user, listId, taskId, subtaskId)
+        const [key, value] = Object.entries(newValue)[0]
         subtask[key] = value
         user.save();
 
@@ -56,8 +39,8 @@ const middlewares = {
 
     delete: async (req, res) => {
         const {listId, taskId, subtaskId} = req.body;
-        const user = await getUserById(req.userId)
-        const subtask = getSelectedSubtask(user, listId, taskId, subtaskId)
+        const user = await DBSelectors.getUserById(req.userId)
+        const subtask = DBSelectors.getSelectedSubtask(user, listId, taskId, subtaskId)
         subtask.remove()
         user.save()
         const response = {

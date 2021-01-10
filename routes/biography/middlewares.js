@@ -1,10 +1,9 @@
-const getUserById = require("../../utils/getUserById");
-
+const DBSelectors = require("../../utils/DBSelectors");
 
 const middlewares = {
     put: async (req, res) => {
         const {newValue} = req.body;
-        const user = await getUserById(req.userId)
+        const user = await DBSelectors.getUserById(req.userId)
         const [key, value] = Object.entries(newValue)[0]
         user.biography[key] = value
         user.save();
