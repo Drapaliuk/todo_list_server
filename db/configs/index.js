@@ -6,8 +6,9 @@ const params  = {
     useUnifiedTopology: true,
     keepAlive: true,
     keepAliveInitialDelay: 3000,
-    useFindAndModify: false
+    useFindAndModify: false,
 }
 
 module.exports = params;
+
 

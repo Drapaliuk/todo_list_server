@@ -27,8 +27,18 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
 
+const corsOptions = {
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+
+app.use(cors(corsOptions));
+app.use('/test', (req, res) => {
+  res.send('Hello server!!--!!')
+})
 app.use('/auth', authRouter)
 app.use('/', isAuthorization)
 app.use('/initialize', initializeRouter)
@@ -37,6 +47,7 @@ app.use('/lists', listsRouter)
 app.use('/settings', settingsRouter)
 app.use('/biography', biographyRouter)
 app.use('/personalData', personalDataRouter)
+
 
 app.use(notFound);
 app.use(errorHandler)
