@@ -7,6 +7,11 @@ exports.TaskSchema = new Schema({
         type: String,
         required: true
     },
+    belongToList : {
+        type: String,
+        default: ''
+    },
+
     hasDone: {
         type: Boolean,
         default: false

@@ -7,8 +7,7 @@ const middlewares = {
         const user = await DBSelectors.getUserById(req.userId)
         const {tasks} = DBSelectors.getSelectedList(user, selectedListId)
 
-        console.log('DATE CREATION:', Date.now())
-        tasks.push({text, dateCreation: Date.now()})
+        tasks.push({text, dateCreation: Date.now(), belongToList: selectedListId})
         user.save()
 
         const response = {
