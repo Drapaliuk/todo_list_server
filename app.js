@@ -12,6 +12,7 @@ const tasksRouter = require('./routes/tasks/router');
 const biographyRouter = require('./routes/biography/router');
 const settingsRouter = require('./routes/settings/router');
 const personalDataRouter = require('./routes/personal_data/router');
+const defaultListsRouter = require('./routes/default_tasks_lists/router');
 const errorHandler = require('./errors_handlers/errors_handler');
 const notFound = require('./errors_handlers/404');
 const app = express();
@@ -43,6 +44,7 @@ app.use('/lists', listsRouter)
 app.use('/settings', settingsRouter)
 app.use('/biography', biographyRouter)
 app.use('/personalData', personalDataRouter)
+app.use('/default-lists', defaultListsRouter)
 
 
 app.use(notFound);

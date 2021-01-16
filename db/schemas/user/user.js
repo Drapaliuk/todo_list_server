@@ -48,6 +48,35 @@ exports.UserSchema = new mongoose.Schema({
             default: 'eng'
         }
     },
+
+    defaultTasksLists: {
+        APP_LIST_today: {
+            settings: {
+                sortBy: {
+                    type: String,
+                    default: ''
+                }
+            }
+            
+        },
+        APP_LIST_week: {
+            settings: {
+                sortBy: {
+                    type: String,
+                    default: ''
+                }
+            }
+        },
+        APP_LIST_important: {
+            settings: {
+                sortBy: {
+                    type: String,
+                    default: ''
+                }
+            }
+        }
+    },
+
     tasks: [TaskSchema],
     tasksLists: [TasksListSchema]
 });

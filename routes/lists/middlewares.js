@@ -60,8 +60,7 @@ const middlewares = {
         }
         res.status(200).json(response)
       }
-    }
-    
+    },
 }
 
 

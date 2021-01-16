@@ -5,7 +5,7 @@ const password = 'O0kCZMRmGWO5srSt'
 const clusterName = 'to-do-list-cluster'
 const localUri = 'mongodb://localhost:27017'
 const atlasUri = `mongodb+srv://vitalii:${password}@to-do-list-cluster.wbz66.mongodb.net/${clusterName}?retryWrites=true&w=majority`
-mongoose.connect(atlasUri, configs)
+mongoose.connect(localUri, configs)
     .catch((error) => {
         console.log(error)
         console.log('you are not connected to db')
