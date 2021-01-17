@@ -8,7 +8,6 @@ const middlewares = {
     todayTasks: {
         post: async (req, res) => {
             const {selectedListId, text} = req.body;
-            console.log('req.body', req.body)
             const user = await DBSelectors.getUserById(req.userId)
             const todayTask = DBSelectors.getTodayTasks(user, selectedListId)
             todayTask.push({text, dateCreation: Date.now(), belongToList: selectedListId})
@@ -26,6 +25,7 @@ const middlewares = {
         put: async (req, res) => {
             const {selectedListId, selectedTaskId, newValue} = req.body;
             const user = await DBSelectors.getUserById(req.userId)
+
             const task = DBSelectors.getSelectedTodayTask(user, selectedTaskId)
             const [key, value] = Object.entries(newValue)[0]
             task[key] = value
@@ -33,7 +33,7 @@ const middlewares = {
             const response = {
               listId: selectedListId,
               taskId: selectedTaskId,
-              changedValue: newValue
+              updatedValue: newValue
             }
     
             res.status(200).json(response)

@@ -3,7 +3,6 @@ const { User } = require("../db/models/user/user")
 
 class DBSelectors {
     static getTodayTasks(user, selectedListId) {
-        console.log(user.defaultTasksLists[selectedListId])
         return user.defaultTasksLists[selectedListId].tasks
     }
 

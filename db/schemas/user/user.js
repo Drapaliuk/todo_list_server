@@ -51,6 +51,14 @@ exports.UserSchema = new mongoose.Schema({
 
     defaultTasksLists: {
         DEFAULT_LIST__today: {
+            _id: {
+                type: String,
+                default: 'DEFAULT_LIST__today'
+            },
+            name: {
+                type: String,
+                default: 'Today'
+            },
             tasks: [TaskSchema],
             settings: {
                 sortBy: {
@@ -60,6 +68,14 @@ exports.UserSchema = new mongoose.Schema({
             }
         },
         DEFAULT_LIST__week: {
+            _id: {
+                type: String,
+                default: 'DEFAULT_LIST__week'
+            },
+            name: {
+                type: String,
+                default: 'Week'
+            },
             settings: {
                 sortBy: {
                     type: String,
@@ -68,11 +84,20 @@ exports.UserSchema = new mongoose.Schema({
             }
         },
         DEFAULT_LIST__important: {
+            _id: {
+                type: String,
+                default: 'DEFAULT_LIST__important'
+            },
+            name: {
+                type: String,
+                default: 'Important'
+            },
             settings: {
                 sortBy: {
                     type: String,
                     default: ''
-                }
+                },
+                
             }
         }
     },
