@@ -1,6 +1,16 @@
 const { User } = require("../db/models/user/user")
 
+
 class DBSelectors {
+    static getTodayTasks(user, selectedListId) {
+        console.log(user.defaultTasksLists[selectedListId])
+        return user.defaultTasksLists[selectedListId].tasks
+    }
+
+    static getSelectedTodayTask(user, taskId) {
+        return user.defaultTasksLists.DEFAULT_LIST__today.tasks.id(taskId)
+    }
+
     static getUserById(userId) {
         return User.findById(userId)
     }

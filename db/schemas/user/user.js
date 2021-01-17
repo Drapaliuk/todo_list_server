@@ -50,16 +50,8 @@ exports.UserSchema = new mongoose.Schema({
     },
 
     defaultTasksLists: {
-        APP_LIST_today: {
-            settings: {
-                sortBy: {
-                    type: String,
-                    default: ''
-                }
-            }
-            
-        },
-        APP_LIST_week: {
+        DEFAULT_LIST__today: {
+            tasks: [TaskSchema],
             settings: {
                 sortBy: {
                     type: String,
@@ -67,7 +59,15 @@ exports.UserSchema = new mongoose.Schema({
                 }
             }
         },
-        APP_LIST_important: {
+        DEFAULT_LIST__week: {
+            settings: {
+                sortBy: {
+                    type: String,
+                    default: ''
+                }
+            }
+        },
+        DEFAULT_LIST__important: {
             settings: {
                 sortBy: {
                     type: String,
