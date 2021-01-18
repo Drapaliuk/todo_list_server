@@ -6,6 +6,10 @@ class DBSelectors {
         return user.defaultTasksLists[selectedListId].tasks
     }
 
+    static getSelectedDefaultTasksList(user, selectedListId) {
+        return user.defaultTasksLists[selectedListId]
+    }
+
     static getSelectedTodayTask(user, taskId) {
         return user.defaultTasksLists.DEFAULT_LIST__today.tasks.id(taskId)
     }

@@ -46,11 +46,21 @@ const middlewares = {
       put: async (req, res) => {
         const {userId} = req;
         const {selectedListId, newValue} = req.body;
-
         const user = await DBSelectors.getUserById(userId)
-        
-        const {settings} = user.tasksLists.id(selectedListId);
         const [key, value] = Object.entries(newValue)[0]
+
+        if(selectedListId === 'DEFAULT_LIST__today') {
+          const selectedList = DBSelectors.getSelectedDefaultTasksList(user, selectedListId)
+          selectedList.settings[key] = value
+          user.save()
+          const response = {
+            listId: selectedListId,
+            changedValue: newValue
+          }
+          return res.status(200).json(response)
+        }
+
+        const {settings} = user.tasksLists.id(selectedListId);
         settings[key] = value
         user.save()
 
