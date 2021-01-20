@@ -4,7 +4,7 @@ const middlewares = {
     post: async (req, res) => {
         const {selectedListId, text} = req.body;
         const user = await DBSelectors.getUserById(req.userId)
-
+        console.log('selectedListId', selectedListId)
         if(selectedListId === 'DEFAULT_LIST__today') {
           console.log('IN POST!')
           const todayTasks = DBSelectors.getTodayTasks(user, selectedListId)
@@ -63,7 +63,7 @@ const middlewares = {
         const response = {
           listId: selectedListId,
           taskId: selectedTaskId,
-          changedValue: newValue
+          updatedValue: newValue
         }
 
         return res.status(200).json(response)
@@ -71,7 +71,7 @@ const middlewares = {
 
     delete: async (req, res) => {
         const {selectedListId, selectedTaskId} = req.body;
-
+        console.log('BODY', req.body)
         const user = await DBSelectors.getUserById(req.userId)
 
         if(selectedListId === 'DEFAULT_LIST__today') {
