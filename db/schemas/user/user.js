@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { TaskSchema } = require('../tasks/task');
 const { TasksListSchema } = require('../tasks/tasks_list');
+const defaultTasksListsIds = require('../../../service_data/default_tasks_lists_ids');
+
 
 exports.UserSchema = new mongoose.Schema({
     auth: {
@@ -53,7 +55,7 @@ exports.UserSchema = new mongoose.Schema({
         DEFAULT_LIST__today: {
             _id: {
                 type: String,
-                default: 'DEFAULT_LIST__today'
+                default: defaultTasksListsIds.DEFAULT_LIST__today
             },
             name: {
                 type: String,
@@ -61,43 +63,60 @@ exports.UserSchema = new mongoose.Schema({
             },
             tasks: [TaskSchema],
             settings: {
-                sortBy: {
-                    type: String,
-                    default: ''
+                sort: {
+                    sortBy: {
+                        type: String,
+                        default: ''
+                    },
+                    order: {
+                        type: String,
+                        default: ''
+                    }
                 }
             }
         },
         DEFAULT_LIST__week: {
             _id: {
                 type: String,
-                default: 'DEFAULT_LIST__week'
+                default: defaultTasksListsIds.DEFAULT_LIST__week
             },
             name: {
                 type: String,
                 default: 'Week'
             },
             settings: {
-                sortBy: {
-                    type: String,
-                    default: ''
+                sort: {
+                    sortBy: {
+                        type: String,
+                        default: ''
+                    },
+                    order: {
+                        type: String,
+                        default: ''
+                    }
                 }
             }
         },
         DEFAULT_LIST__important: {
             _id: {
                 type: String,
-                default: 'DEFAULT_LIST__important'
+                default: defaultTasksListsIds.DEFAULT_LIST__important
             },
             name: {
                 type: String,
                 default: 'Important'
             },
             settings: {
-                sortBy: {
-                    type: String,
-                    default: ''
-                },
-                
+                sort: {
+                    sortBy: {
+                        type: String,
+                        default: ''
+                    },
+                    order: {
+                        type: String,
+                        default: ''
+                    }
+                }
             }
         }
     },

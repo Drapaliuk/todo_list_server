@@ -1,12 +1,11 @@
 const DBSelectors = require("../../utils/DBSelectors");
+const defaultTasksListsIds = require('../../service_data/default_tasks_lists_ids');
 
 const middlewares = {
     post: async (req, res) => {
         const {selectedListId, text} = req.body;
         const user = await DBSelectors.getUserById(req.userId)
-        console.log('selectedListId', selectedListId)
-        if(selectedListId === 'DEFAULT_LIST__today') {
-          console.log('IN POST!')
+        if(selectedListId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const todayTasks = DBSelectors.getTodayTasks(user, selectedListId)
           todayTasks.push({text, dateCreation: Date.now(), belongToList: selectedListId})
           user.save()
@@ -39,7 +38,7 @@ const middlewares = {
         const user = await DBSelectors.getUserById(req.userId)
 
 
-        if(selectedListId === 'DEFAULT_LIST__today') {
+        if(selectedListId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const task = DBSelectors.getSelectedTodayTask(user, selectedTaskId)
           const [key, value] = Object.entries(newValue)[0]
           task[key] = value
@@ -71,10 +70,9 @@ const middlewares = {
 
     delete: async (req, res) => {
         const {selectedListId, selectedTaskId} = req.body;
-        console.log('BODY', req.body)
         const user = await DBSelectors.getUserById(req.userId)
 
-        if(selectedListId === 'DEFAULT_LIST__today') {
+        if(selectedListId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const task = DBSelectors.getSelectedTodayTask(user, selectedTaskId)
 
           task.remove()

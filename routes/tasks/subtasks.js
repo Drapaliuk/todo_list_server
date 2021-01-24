@@ -1,11 +1,12 @@
 const DBSelectors = require("../../utils/DBSelectors")
+const defaultTasksListsIds = require('../../service_data/default_tasks_lists_ids');
 
 const middlewares = {
     post: async (req, res) => {
         const {listId, taskId, text} = req.body;
         const user = await DBSelectors.getUserById(req.userId)
 
-        if(listId === 'DEFAULT_LIST__today') {
+        if(listId === defaultTasksListsIds.DEFAULT_LIST__today) {
             const {subtasks} = user.defaultTasksLists[listId].tasks.id(taskId);
             subtasks.push({text})
             user.save();
@@ -37,7 +38,7 @@ const middlewares = {
         const user = await DBSelectors.getUserById(req.userId)
         const [key, value] = Object.entries(newValue)[0]
 
-        if(listId === 'DEFAULT_LIST__today') {
+        if(listId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const selectedTask = user.defaultTasksLists[listId].tasks.id(taskId)
           const selectedSubtask = selectedTask.subtasks.id(subtaskId)
           selectedSubtask[key] = value
@@ -71,7 +72,7 @@ const middlewares = {
         const {listId, taskId, subtaskId} = req.body;
         const user = await DBSelectors.getUserById(req.userId)
 
-        if(listId === 'DEFAULT_LIST__today') {
+        if(listId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const selectedTask = user.defaultTasksLists[listId].tasks.id(taskId)
           const selectedSubtask = selectedTask.subtasks.id(subtaskId);
           selectedSubtask.remove()

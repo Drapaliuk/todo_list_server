@@ -39,6 +39,7 @@ app.use('/test', (req, res) => {
 app.use('/auth', authRouter)
 app.use('/', isAuthorization)
 app.use('/initialize', initializeRouter)
+app.use('/initialize/check-out', initializeRouter)
 app.use('/tasks', tasksRouter)
 app.use('/lists', listsRouter)
 app.use('/settings', settingsRouter)

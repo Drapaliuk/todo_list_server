@@ -1,4 +1,5 @@
 const DBSelectors = require("../../utils/DBSelectors");
+const defaultTasksListsIds = require('../../service_data/default_tasks_lists_ids');
 
 const middlewares = {
     post: async (req, res) => {
@@ -49,7 +50,7 @@ const middlewares = {
         const user = await DBSelectors.getUserById(userId)
         const [key, value] = Object.entries(newValue)[0]
 
-        if(selectedListId === 'DEFAULT_LIST__today') {
+        if(defaultTasksListsIds.hasOwnProperty(selectedListId)) {
           const selectedList = DBSelectors.getSelectedDefaultTasksList(user, selectedListId)
           selectedList.settings[key] = value
           user.save()

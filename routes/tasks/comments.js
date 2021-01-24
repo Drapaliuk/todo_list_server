@@ -1,4 +1,5 @@
 const DBSelectors = require("../../utils/DBSelectors");
+const defaultTasksListsIds = require('../../service_data/default_tasks_lists_ids');
 
 const middlewares = {
     post: async (req, res) => {
@@ -6,7 +7,7 @@ const middlewares = {
 
         const user = await DBSelectors.getUserById(req.userId)
 
-        if(listId === 'DEFAULT_LIST__today') {
+        if(listId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const {comments} = user.defaultTasksLists[listId].tasks.id(taskId);
           comments.push({text})
           user.save();
@@ -40,7 +41,7 @@ const middlewares = {
         const comment = DBSelectors.getSelectedComment(user, listId, taskId, commentId)
         const [key, value] = Object.entries(newValue)[0] //! Зробити абстракцію!!!
 
-        if(listId === 'DEFAULT_LIST__today') {
+        if(listId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const selectedTask = user.defaultTasksLists[listId].tasks.id(taskId)
           const selectedComment = selectedTask.subtasks.id(commentId)
           selectedComment[key] = value
@@ -74,7 +75,7 @@ const middlewares = {
         const {listId, taskId, commentId} = req.body;
         const user = await DBSelectors.getUserById(req.userId);
         
-        if(listId === 'DEFAULT_LIST__today') {
+        if(listId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const selectedTask = user.defaultTasksLists[listId].tasks.id(taskId)
           const deletedComment = selectedTask.comments.id(commentId);
           deletedComment.remove()

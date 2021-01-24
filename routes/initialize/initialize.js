@@ -13,6 +13,11 @@ const middlewares = {
         }
 
         res.status(200).json(response)
+    },
+    checkOut: {
+        get: (req, res) => {
+            return res.status(200).end()
+        }
     }
 }
 

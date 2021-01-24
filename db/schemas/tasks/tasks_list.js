@@ -15,10 +15,15 @@ exports.TasksListSchema = new Schema({
             type: String,
             default: ''
         },
-        
-        sortBy: {
-            type: String, 
-            default: ''
+        sort: {
+            sortBy: {
+                type: String,
+                default: ''
+            },
+            order: {
+                type: String,
+                default: ''
+            }
         }
     },
     tasks: [TaskSchema]
