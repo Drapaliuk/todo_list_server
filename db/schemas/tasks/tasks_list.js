@@ -6,6 +6,10 @@ exports.TasksListSchema = new Schema({
         type: String,
         required: true
     },
+    belongToFolder: {
+        type: String,
+        default: ''
+    },
     settings: {
         isMute: {
             type: Boolean,

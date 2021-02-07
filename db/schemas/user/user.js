@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { TaskSchema } = require('../tasks/task');
 const { TasksListSchema } = require('../tasks/tasks_list');
 const defaultTasksListsIds = require('../../../service_data/default_tasks_lists_ids');
+const { TasksFolderSchema } = require('../tasks/folder');
 
 
 exports.UserSchema = new mongoose.Schema({
@@ -10,6 +11,11 @@ exports.UserSchema = new mongoose.Schema({
         password: String,
         refreshToken: String
     },
+
+    tasks: [TaskSchema],
+    tasksLists: [TasksListSchema],
+    tasksFolders: [TasksFolderSchema],
+    
     biography: {
         name: {
             type: String,
@@ -119,10 +125,7 @@ exports.UserSchema = new mongoose.Schema({
                 }
             }
         }
-    },
-
-    tasks: [TaskSchema],
-    tasksLists: [TasksListSchema]
+    }
 });
 
 

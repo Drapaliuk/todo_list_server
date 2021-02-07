@@ -3,8 +3,8 @@ const DBSelectors = require("../../utils/DBSelectors");
 const middlewares = {
     post: async (req, res) => {
         const { userId, shouldUpdateTokens } = req;
-        const {tasksLists: tasks, biography, settings, personalData, defaultTasksLists } = await DBSelectors.getUserById(userId);
-        const payload = {tasks, biography, settings, personalData, defaultTasksLists};
+        const {tasksLists: tasks, tasksFolders: folders,  biography, settings, personalData, defaultTasksLists } = await DBSelectors.getUserById(userId);
+        const payload = {tasks, folders, biography, settings, personalData, defaultTasksLists};
       
         const response = {
             responseCode: 1,

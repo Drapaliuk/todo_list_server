@@ -4,8 +4,23 @@ const defaultTasksListsIds = require('../../service_data/default_tasks_lists_ids
 const middlewares = {
     post: async (req, res) => {
         const {userId, shouldUpdateTokens} = req;
-        const {name} = req.body;
+        const {name, belongToFolder} = req.body;
         const user = await DBSelectors.getUserById(userId);
+        
+        
+        if(belongToFolder) {
+          const folder = user.tasksFolders.id(belongToFolder)
+          folder.tasksLists.push({name, belongToFolder})
+          user.save()
+
+          const response = {
+            list: folder.tasksLists[folder.tasksLists.length - 1],
+            shouldUpdateTokens,
+          }
+
+          return res.status(201).json(response)
+        }
+        
         user.tasksLists.push({name})
         user.save()
         const response = {

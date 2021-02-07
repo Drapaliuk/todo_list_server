@@ -18,13 +18,19 @@ class DBSelectors {
         return User.findById(userId)
     }
 
-    static getSelectedList(user, listId) {
+    static getSelectedList(user, listId, belongToFolder) {
+        if(belongToFolder) {
+            return user.tasksFolders.id(belongToFolder).tasksLists.id(listId)
+        }
         return user.tasksLists.id(listId)
     }
 
-    static getSelectedTask (user, listId, taskId) {
-        const selectedList = this.getSelectedList(user, listId)
-        return selectedList.tasks.id(taskId)
+    static getSelectedFolder(user, folderId) {
+        return user.tasksFolders.id(folderId)
+    }
+
+    static getSelectedTask (user, listId, taskId, belongToFolder) {
+        return this.getSelectedList(user, listId, belongToFolder).tasks.id(taskId)
     }
 
     static getSelectedSubtask (user, listId, taskId, subtaskId) {

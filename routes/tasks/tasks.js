@@ -3,7 +3,7 @@ const defaultTasksListsIds = require('../../service_data/default_tasks_lists_ids
 
 const middlewares = {
     post: async (req, res) => {
-        const {selectedListId, text} = req.body;
+        const {selectedListId, text, belongToFolder} = req.body;
         const user = await DBSelectors.getUserById(req.userId)
         if(selectedListId === defaultTasksListsIds.DEFAULT_LIST__today) {
           const todayTasks = DBSelectors.getTodayTasks(user, selectedListId)
@@ -16,15 +16,16 @@ const middlewares = {
           }
           
           return res.status(201).json(response)
-
         }
 
-        const {tasks} = DBSelectors.getSelectedList(user, selectedListId)
+        
 
+        const {tasks} = DBSelectors.getSelectedList(user, selectedListId, belongToFolder)
         tasks.push({text, dateCreation: Date.now(), belongToList: selectedListId})
         user.save()
 
         const response = {
+          folderID: belongToFolder,
           listId: selectedListId,
           savedTask: tasks[tasks.length - 1]
         }
@@ -34,7 +35,8 @@ const middlewares = {
       },
 
     put: async (req, res) => {
-        const {selectedListId, selectedTaskId, newValue} = req.body;
+        const {selectedListId, selectedTaskId, newValue, belongToFolder} = req.body;
+        console.log(req.body)
         const user = await DBSelectors.getUserById(req.userId)
 
 
@@ -52,8 +54,7 @@ const middlewares = {
          return res.status(200).json(response)
         }
 
-        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId)
-
+        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId, belongToFolder)
         const [key, value] = Object.entries(newValue)[0]
         task[key] = value
         user.save();
