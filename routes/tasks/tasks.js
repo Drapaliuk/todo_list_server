@@ -35,7 +35,8 @@ const middlewares = {
       },
 
     put: async (req, res) => {
-        const {selectedListId, selectedTaskId, newValue, belongToFolder} = req.body;
+        const {selectedListId, selectedTaskId, newValue, folderID} = req.body;
+        console.log(req.body)
         console.log(req.body)
         const user = await DBSelectors.getUserById(req.userId)
 
@@ -46,6 +47,7 @@ const middlewares = {
           task[key] = value
           user.save();
           const response = {
+            folderID,
             listId: selectedListId,
             taskId: selectedTaskId,
             updatedValue: newValue
@@ -54,13 +56,14 @@ const middlewares = {
          return res.status(200).json(response)
         }
 
-        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId, belongToFolder)
+        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId, folderID)
         const [key, value] = Object.entries(newValue)[0]
         task[key] = value
         user.save();
 
 
         const response = {
+          folderID,
           listId: selectedListId,
           taskId: selectedTaskId,
           updatedValue: newValue
@@ -70,7 +73,8 @@ const middlewares = {
       },
 
     delete: async (req, res) => {
-        const {selectedListId, selectedTaskId} = req.body;
+        const {selectedListId, selectedTaskId, folderID} = req.body;
+        console.log(req.body)
         const user = await DBSelectors.getUserById(req.userId)
 
         if(selectedListId === defaultTasksListsIds.DEFAULT_LIST__today) {
@@ -86,11 +90,13 @@ const middlewares = {
           return res.status(200).json(response)
         }
 
-        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId)
+        const task = DBSelectors.getSelectedTask(user, selectedListId, selectedTaskId, folderID)
 
         task.remove()
         user.save()
+
         const response = {
+          folderID,
           listId: selectedListId,
           taskId: selectedTaskId
         }

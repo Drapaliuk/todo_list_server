@@ -3,7 +3,7 @@ var debug = require('debug')('to-do-list-server:server');
 var http = require('http');
 const normalizePort = require('../utils/normalize_port');
 require('../db/connect');
-
+console.log('process', global.process.env.PORT)
 var port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 var server = http.createServer(app);
