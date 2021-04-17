@@ -36,8 +36,6 @@ const middlewares = {
 
     put: async (req, res) => {
         const {selectedListId, selectedTaskId, newValue, folderID} = req.body;
-        console.log(req.body)
-        console.log(req.body)
         const user = await DBSelectors.getUserById(req.userId)
 
 
@@ -74,7 +72,6 @@ const middlewares = {
 
     delete: async (req, res) => {
         const {selectedListId, selectedTaskId, folderID} = req.body;
-        console.log(req.body)
         const user = await DBSelectors.getUserById(req.userId)
 
         if(selectedListId === defaultTasksListsIds.DEFAULT_LIST__today) {

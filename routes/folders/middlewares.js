@@ -48,7 +48,6 @@ const middlewares = {
       post: async (req, res) => {
         const {userId, shouldUpdateTokens} = req;
         const {name, selectedFolderID} = req.body;
-        console.log(req.body)
         const user = await DBSelectors.getUserById(userId);
         
         const folder = user.tasksFolders.id(selectedFolderID)

@@ -16,6 +16,7 @@ const defaultListsRouter = require('./routes/default_tasks_lists/router');
 const listFoldersRouter = require('./routes/folders/router')
 const errorHandler = require('./errors_handlers/errors_handler');
 const notFound = require('./errors_handlers/404');
+const { sendEmail } = require('./utils/mail');
 const app = express();
 
 app.use(logger('dev'));
@@ -34,7 +35,8 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-app.use('/test', (req, res) => {
+app.use('/test', async (req, res) => {
+  await sendEmail('vitaliidrapaliuk@gmail.com', 'Working', 'Text')
   res.send('Hello server!!--!!')
 })
 app.use('/auth', authRouter)
