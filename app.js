@@ -36,8 +36,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use('/test', async (req, res) => {
-  await sendEmail('vitaliidrapaliuk@gmail.com', 'Working', 'Text')
-  res.send('Hello server!!--!!')
+  const result = await sendEmail('vitaliidrapaliuk@gmail.com', 'Working', 'Text')
+  res.json(result)
 })
 app.use('/auth', authRouter)
 app.use('/', isAuthorization)
