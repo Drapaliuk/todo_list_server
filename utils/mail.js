@@ -51,14 +51,13 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey('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')
 
 const msg = {
-  to: 'vitaliidrapaliuk@gmail.com',
+  to: 'dmitro925@gmail.com',
   from: 'valiakusil1945@gmail.com', // Use the email address or domain you verified above
-  subject: 'IT IS MINE',
-  text: 'it is my customized text',
+  subject: 'ЗБІЛЬШЕННЯ ПЕНІСА ЗА 2 ТИЖНІ',
+  text: 'Дімас, прівєт!',
   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 };
 
-console.log('only for refreshing')
 
 
 exports.sendEmail = async (email, subject, data) => {
