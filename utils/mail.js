@@ -53,8 +53,8 @@ sgMail.setApiKey('SG.5c6w_fogTIa9G88PYbSmhw.trvJQ4jiFK2R28Co4w-upUnhWs1XaYTy9PuV
 const msg = {
   to: 'vitaliidrapaliuk@gmail.com',
   from: 'valiakusil1945@gmail.com', // Use the email address or domain you verified above
-  subject: 'Sending with Twilio SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
+  subject: 'IT IS MINE',
+  text: 'it is my customized text',
   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 };
 
