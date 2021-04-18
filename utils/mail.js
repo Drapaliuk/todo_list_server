@@ -17,7 +17,7 @@
 
 // const transporter = nodemailer.createTransport(sgTransport({
 //   auth: {
-//       api_user:
+//       api_user: "vitalii", 
 //       api_key: ADMIN_EMAIL_API_KEY // your api key here, better hide it in env vars
 //   }
 // }))
