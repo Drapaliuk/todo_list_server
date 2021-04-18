@@ -58,6 +58,7 @@ const msg = {
   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 };
 
+console.log('only for refreshing')
 
 
 exports.sendEmail = async (email, subject, data) => {
