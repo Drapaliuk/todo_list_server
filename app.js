@@ -19,34 +19,6 @@ const notFound = require('./errors_handlers/404');
 const { sendEmail } = require('./utils/mail');
 const app = express();
 
-
-
-
-// const TelegramBot = require('node-telegram-bot-api');
-// const TOKEN = '1735477226:AAGuRpRNlR1QfgoALRM882f6OuUiWBymwyA';
-
-
-// const bot = new TelegramBot(TOKEN, {
-//   polling: {
-//       interval: 300,
-//       autoStart: true,
-//       params: {
-//           timeout: 10,
-           
-//       }
-//   },
-// });
-
-// console.log('Bot has been started...')
-
-
-// bot.on('message', async (msg) => {
-//     const botResponse = await bot.sendMessage(msg.chat.id, 'message from Heroku')
-// });
-
-
-
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
