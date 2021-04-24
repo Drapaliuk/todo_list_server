@@ -51,9 +51,9 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey('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')
 
 const msg = {
-  to: 'dmitro925@gmail.com',
+  to: 'vitaliidrapaliuk@gmail.com',
   from: 'valiakusil1945@gmail.com', // Use the email address or domain you verified above
-  subject: 'ЗБІЛЬШЕННЯ ПЕНІСА ЗА 2 ТИЖНІ',
+  subject: 'Test',
   text: 'Дімас, прівєт!',
   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 };

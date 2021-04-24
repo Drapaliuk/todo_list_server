@@ -15,8 +15,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.8",
     "morgan": "~1.9.1",
+    "node-telegram-bot-api": "^0.52.0",
     "nodemailer": "^6.5.0",
     "nodemailer-sendgrid-transport": "^0.2.0",
+    "unirest": "^0.6.0",
     "uuid": "^8.3.2"
   }
 }
