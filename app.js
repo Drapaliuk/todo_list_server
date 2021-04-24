@@ -22,27 +22,27 @@ const app = express();
 
 
 
-const TelegramBot = require('node-telegram-bot-api');
-const TOKEN = '1735477226:AAGuRpRNlR1QfgoALRM882f6OuUiWBymwyA';
+// const TelegramBot = require('node-telegram-bot-api');
+// const TOKEN = '1735477226:AAGuRpRNlR1QfgoALRM882f6OuUiWBymwyA';
 
 
-const bot = new TelegramBot(TOKEN, {
-  polling: {
-      interval: 300,
-      autoStart: true,
-      params: {
-          timeout: 10,
+// const bot = new TelegramBot(TOKEN, {
+//   polling: {
+//       interval: 300,
+//       autoStart: true,
+//       params: {
+//           timeout: 10,
            
-      }
-  },
-});
+//       }
+//   },
+// });
 
-console.log('Bot has been started...')
+// console.log('Bot has been started...')
 
 
-bot.on('message', async (msg) => {
-    const botResponse = await bot.sendMessage(msg.chat.id, 'message from Heroku')
-});
+// bot.on('message', async (msg) => {
+//     const botResponse = await bot.sendMessage(msg.chat.id, 'message from Heroku')
+// });
 
 
 
