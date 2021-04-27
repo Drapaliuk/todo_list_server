@@ -1,3 +1,21 @@
+const token = '1776151137:AAFqW5T8_5QSqK54a_77LSX6wmFmHkyxXpA'
+const TelegramBot = require('node-telegram-bot-api');
+const bot = new TelegramBot(token, {
+    polling: {
+      interval: 300,
+      autoStart: true,
+      params: {
+        timeout: 10,
+      },
+    },
+  });
+
+bot.on('message', (msg) => {
+    bot.sendMessage(msg.chat.id, 'First attempt!')
+})
+
+
+
 // const express = require('express');
 // const path = require('path');
 // const cookieParser = require('cookie-parser');
