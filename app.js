@@ -64,7 +64,7 @@ const bot = new TelegramBot(token, {
   });
 
 bot.on('message', (msg) => {
-    bot.sendMessage(msg.chat.id, 'First attempt!')
+    bot.sendMessage(msg.chat.id, 'Second attempt!')
 })
 
 app.use(notFound);
